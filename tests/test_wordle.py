@@ -1,6 +1,14 @@
+from pytest import FixtureRequest, fixture
 from pytest_bdd import scenarios, given, when, then
 from pytest_bdd.parsers import parse
+
 from puzzle import Puzzle
+from dictionary import Dictionary
+
+@fixture
+def dictionary() -> Dictionary:
+    return Dictionary()
+
 
 
 scenarios("")
@@ -11,7 +19,7 @@ scenarios("")
     target_fixture="puzzle",
 )
 def stepdef(solution):
-    puzzle = Puzzle(solution=solution)
+    puzzle = Puzzle.create(solution=solution)
     return puzzle
 
 
@@ -32,3 +40,10 @@ def stepdef(puzzle: Puzzle, guess):
 )
 def stepdef(won):
     assert won
+
+
+@then('all of the hints will be words in the dictionary')
+def stepdef(puzzle, dictionary):
+    assert len(puzzle.hints) > 0
+    for hint in puzzle.hints:
+        assert dictionary.word_exists(hint)
