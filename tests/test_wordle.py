@@ -24,6 +24,11 @@ def stepdef(puzzle: Puzzle, guess):
     return won
 
 
-@then('the player sees a win message.')
+@then(
+    parse('the player sees a {won} message.'),
+    converters = {
+        'won': lambda s: {'win': True, 'lose': False}
+    }
+)
 def stepdef(won):
     assert won
