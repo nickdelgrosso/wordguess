@@ -1,17 +1,41 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
-from typing import List
+from multiprocessing.sharedctypes import Value
+from typing import List, Tuple, Iterable
+from enum  import Enum, auto
+
+
+class HintType(Enum):
+    CORRECT = auto()
+    WRONG_PLACE = auto()
+    NOT_PRESENT = auto()
 
 
 @dataclass(frozen=True)
 class Puzzle:
     solution: str
-    hints: List[str]
+    hints: List[str] = field(default_factory=list)
 
-    @classmethod
-    def create(cls, solution: str) -> Puzzle:
-        return Puzzle(solution=solution, hints=["python"])
-        
+    def add_hint(self, word: str):
+        assert len(word) == len(self.solution)
+        self.hints.append(word)
+
     def guess(self, guess: str) -> bool:
         return guess == self.solution
 
+    def get_hint(self, word: str) -> str:
+        for hint in self.hints:
+            if str(hint) == word:
+                return hint
+        else:
+            raise ValueError(f"{word} not found in hints")
+
+    def check_hints(self, word: str) -> Iterable[Tuple[str, HintType]]:
+        hint = self.get_hint(word)
+        for idx, letter in enumerate(hint):
+            if letter == self.solution[idx]:
+                yield letter, HintType.CORRECT
+            elif letter in self.solution:
+                yield letter, HintType.WRONG_PLACE
+            else:
+                yield letter, HintType.NOT_PRESENT

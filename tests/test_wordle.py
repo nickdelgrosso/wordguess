@@ -1,8 +1,10 @@
+import enum
+from typing import List
 from pytest import FixtureRequest, fixture
 from pytest_bdd import scenarios, given, when, then
 from pytest_bdd.parsers import parse
 
-from puzzle import Puzzle
+from puzzle import HintType, Puzzle
 from dictionary import Dictionary
 
 @fixture
@@ -19,8 +21,20 @@ scenarios("")
     target_fixture="puzzle",
 )
 def stepdef(solution):
-    puzzle = Puzzle.create(solution=solution)
+    puzzle = Puzzle(solution=solution)
     return puzzle
+
+
+@given(
+    parse('the hints [{hint_words}]'),
+    converters={
+        'hint_words': lambda s: [h.strip() for h in s.split(',')]
+    },
+)
+def stepdef(puzzle: Puzzle, hint_words: List[str]):
+    for word in hint_words:
+        puzzle.add_hint(word=word)
+    
 
 
 @when(
@@ -47,3 +61,24 @@ def stepdef(puzzle, dictionary):
     assert len(puzzle.hints) > 0
     for hint in puzzle.hints:
         assert dictionary.word_exists(hint)
+
+
+@then(
+    parse('the hint for "{hint_word}" shows that letters [{indices}] are {hint_type}'),
+    converters={
+        'indices': lambda s: [int(e) for e in s.split(',')],
+        'hint_type': lambda s: {
+            'correct': HintType.CORRECT,
+            'not present': HintType.NOT_PRESENT,
+            }[s]
+    }
+)
+def stepdef(puzzle: Puzzle, hint_word, indices, hint_type):
+    letter_hints = tuple(puzzle.check_hints(word=hint_word))
+    matched_letter_hints = [letter_hints[ind - 1] for ind in indices]
+    for _, ht in matched_letter_hints:
+        assert ht is hint_type
+        
+
+
+
