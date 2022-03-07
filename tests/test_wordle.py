@@ -67,7 +67,7 @@ def stepdef(puzzle, dictionary):
 @then(
     parse('the hint for "{hint_word}" shows that letters [{indices}] are {hint_type}'),
     converters={
-        'indices': lambda s: [int(e) for e in s.split(',')],
+        'indices': lambda ss: ([int(ee) for ee in ss.split(',')] if ss != 'None' else []),
         'hint_type': lambda s: {
             'correct': HintType.CORRECT,
             'not present': HintType.NOT_PRESENT,

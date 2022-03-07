@@ -12,17 +12,18 @@ Feature: Unfinished Wordle
         | marks | there,bombs,plumb | 
         
     Scenario Outline: Hints Say If a Letter is in the Correct Spot
-        Given a puzzle where the correct answer is "great" 
-        And the hints [fleck,prove,green,steak]
+        Given a puzzle where the correct answer is "<solution>" 
+        And the hints [<hint>]
         Then the hint for "<hint>" shows that letters [<correct_indices>] are correct
         And the hint for "<hint>" shows that letters [<unpresent_indices>] are not present
 
         Examples:
-        | hint | correct_indices | unpresent_indices |
-        | fleck | 3 | 1,2,4,5 |
-        | prove | 2  | 1,3,4 |
-        | green | 1,2,3 | 4,5 |
-        | steak | 3,4 | 1,5 |
+        | solution | hint | correct_indices | unpresent_indices |
+        | great | fleck | 3 | 1,2,4,5 |
+        | great | prove | 2  | 1,3,4 |
+        | great | green | 1,2,3 | 4,5 |
+        | great | steak | 3,4 | 1,5 |
+        | great | flock | None | 1,2,3,4,5 |
 
 
     Scenario: Win on Correct Guess
