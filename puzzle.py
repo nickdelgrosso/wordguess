@@ -30,9 +30,8 @@ class Puzzle:
         else:
             raise ValueError(f"{word} not found in hints")
 
-    def check_hints(self, word: str) -> Iterable[Tuple[str, HintType]]:
-        hint = self.get_hint(word)
-        for idx, letter in enumerate(hint):
+    def check(self, word: str) -> Iterable[Tuple[str, HintType]]:
+        for idx, letter in enumerate(word):
             if letter == self.solution[idx]:
                 yield letter, HintType.CORRECT
             elif letter in self.solution:

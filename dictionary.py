@@ -13,5 +13,5 @@ class Dictionary:
         words = filename.read_text().splitlines()
         return cls(words=words)
 
-    def word_exists(self, word: str) -> bool:
+    def __contains__(self, word: str) -> bool:
         return word in self.words

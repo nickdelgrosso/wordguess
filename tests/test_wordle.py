@@ -61,7 +61,7 @@ def stepdef(won):
 def stepdef(puzzle, dictionary):
     assert len(puzzle.hints) > 0
     for hint in puzzle.hints:
-        assert dictionary.word_exists(hint)
+        assert hint in dictionary
 
 
 @then(
@@ -75,7 +75,7 @@ def stepdef(puzzle, dictionary):
     }
 )
 def stepdef(puzzle: Puzzle, hint_word, indices, hint_type):
-    letter_hints = tuple(puzzle.check_hints(word=hint_word))
+    letter_hints = tuple(puzzle.check(word=hint_word))
     matched_letter_hints = [letter_hints[ind - 1] for ind in indices]
     for _, ht in matched_letter_hints:
         assert ht is hint_type
