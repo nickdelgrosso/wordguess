@@ -13,12 +13,16 @@ Feature: Unfinished Wordle
         
     Scenario Outline: Hints Say If a Letter is in the Correct Spot
         Given a puzzle where the correct answer is "great" 
-        # And the hints [fleck]
-        Then the hint for "fleck" shows that letters [3] are correct
-        And the hint for "fleck" shows that letters [1, 2, 4, 5] are not present
+        And the hints [fleck,prove,green,steak]
+        Then the hint for "<hint>" shows that letters [<correct_indices>] are correct
+        And the hint for "<hint>" shows that letters [<unpresent_indices>] are not present
 
-        # Examples:
-        # | solution | hints | hint | correct_indices | unpresent_indices |
+        Examples:
+        | hint | correct_indices | unpresent_indices |
+        | fleck | 3 | 1,2,4,5 |
+        | prove | 2  | 1,3,4 |
+        | green | 1,2,3 | 4,5 |
+        | steak | 3,4 | 1,5 |
 
 
     Scenario: Win on Correct Guess

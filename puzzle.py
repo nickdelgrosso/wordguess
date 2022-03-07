@@ -1,5 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
+import enum
 from multiprocessing.sharedctypes import Value
 from typing import List, Tuple, Iterable
 from enum  import Enum, auto
@@ -30,11 +31,25 @@ class Puzzle:
         else:
             raise ValueError(f"{word} not found in hints")
 
-    def check(self, word: str) -> Iterable[Tuple[str, HintType]]:
+    def check_hints(self, word: str) -> Iterable[Tuple[str, HintType]]:
+        hint = self.get_hint(word)
+        solution_remaining = list(self.solution) 
+        hint_remaining = list(enumerate(hint))
+        gg = [None for _ in range(len(word))]
         for idx, letter in enumerate(word):
             if letter == self.solution[idx]:
-                yield letter, HintType.CORRECT
-            elif letter in self.solution:
-                yield letter, HintType.WRONG_PLACE
-            else:
-                yield letter, HintType.NOT_PRESENT
+                solution_remaining.remove(letter)
+                hint_remaining.remove((idx, letter))
+                gg[idx] = HintType.CORRECT
+        for idx, letter in hint_remaining:
+            if letter in solution_remaining:
+                solution_remaining.remove(letter)
+                hint_remaining.remove((idx, letter))
+                gg[idx] = HintType.WRONG_PLACE
+        for idx, _ in hint_remaining:
+            gg[idx] = HintType.NOT_PRESENT
+        assert all(h is not None for h in gg)
+        
+        for letter, hint in zip(word, gg):
+            yield letter, hint
+        
