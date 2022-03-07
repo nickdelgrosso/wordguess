@@ -1,5 +1,16 @@
 Feature: Unfinished Wordle
 
+    Scenario Outline: Player Can See All Past Guesses
+        Given a puzzle where the correct answer is "<solution>"
+        When the player guesses "<guess>"
+        Then the hint does yes get registered in the list of guesses.
+
+        Examples:
+        | solution | guess |
+        | stark    | joint |
+        | stark    | break |
+        | joint    | moves | 
+
     Scenario Outline: Puzzle Has Full-Word Hints
         Given a puzzle where the correct answer is "stark"
         When the player guesses a non-word "<guess>"
@@ -8,6 +19,17 @@ Feature: Unfinished Wordle
         Examples: Vertical
         | guess | dadac | liftd | shurt |
         
+    Scenario Outline: All Hints Must Be Same Length as the Solution
+        Given a puzzle where the correct answer is "<solution>"
+        When the player guesses "<guess>"
+        Then the hint does not get registered in the list of guesses.
+
+        Examples:
+        | solution | guess |
+        | stark    | joke  |
+        | stark    | proofs|
+        | joint    | good  | 
+
     Scenario Outline: Hints Say If a Letter is in the Correct Spot
         Given a puzzle where the correct answer is "<solution>" 
         And the hints [<hint>]

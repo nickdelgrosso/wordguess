@@ -71,9 +71,14 @@ def stepdef(game: Game, won: bool):
     assert game.has_won() == won
 
 
-@then('the hint does not get registered in the list of guesses.')
-def stepdef(game: Game, guess: str):
-    assert guess not in game.guesses
+@then(
+    parse('the hint does {is_registered} get registered in the list of guesses.'),
+    converters = {
+        'is_registered': lambda s: {'yes': True, 'not': False}[s]
+    }
+)
+def stepdef(game: Game, guess: str, is_registered: bool):
+    assert (guess in game.guesses) == is_registered
 
 
 @then('all of the hints will be words in the dictionary')
