@@ -81,14 +81,6 @@ def stepdef(game: Game, guess: str, is_registered: bool):
     assert (guess in game.guesses) == is_registered
 
 
-@then('all of the hints will be words in the dictionary')
-def stepdef(game: Game, dictionary: Dictionary):
-    hints = game.get_word_hints()
-    assert len(puzzle.hints) > 0
-    for hint in puzzle.hints:
-        assert hint in dictionary
-
-
 @then(
     parse('the hint for "{hint_word}" shows that letters [{indices}] are {hint_type}'),
     converters={
