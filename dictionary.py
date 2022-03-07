@@ -6,7 +6,7 @@ from pathlib import Path
 
 @dataclass()
 class Dictionary:
-    words: List[str] = field(default_factory=list)
+    words: List[str] = field(default_factory=list, repr=False)
 
     @classmethod
     def from_text_file(cls, filename: Path) -> Dictionary:

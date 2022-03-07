@@ -1,15 +1,12 @@
 Feature: Unfinished Wordle
 
     Scenario Outline: Puzzle Has Full-Word Hints
-        Given a puzzle where the correct answer is "<solution>" 
-        And the hints [<hints>]
-        Then all of the hints will be words in the dictionary
+        Given a puzzle where the correct answer is "stark"
+        When the player guesses a non-word "<guess>"
+        Then the hint does not get registered in the list of guesses.
 
-        Examples:
-        | solution | hints |
-        | stark    | jokes,grade |
-        | jokes    | found |
-        | marks | there,bombs,plumb | 
+        Examples: Vertical
+        | guess | dadac | liftd | shurt |
         
     Scenario Outline: Hints Say If a Letter is in the Correct Spot
         Given a puzzle where the correct answer is "<solution>" 
@@ -31,13 +28,8 @@ Feature: Unfinished Wordle
     Scenario: Win on Correct Guess
         Given a puzzle where the correct answer is "great" 
         And the hints [peach]
+        And the game does not say the player has won
         When the player guesses "great"
         Then the player sees a win message.
-
-    Scenario: Lose on Incorrect Guess
-        Given a puzzle where the correct answer is "great" 
-        And the hints [peach]
-        When the player guesses "great"
-        Then the player sees a lose message.
 
     

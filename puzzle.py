@@ -18,11 +18,12 @@ class Puzzle:
     hints: List[str] = field(default_factory=list)
 
     def add_hint(self, word: str):
-        assert len(word) == len(self.solution)
+        if len(word) != len(self.solution):
+            raise ValueError(f"Guess must contain {len(self.solution)} letters.")
         self.hints.append(word)
 
-    def guess(self, guess: str) -> bool:
-        return guess == self.solution
+    def has_won(self) -> bool:
+        return self.solution in self.hints
 
     def get_hint(self, word: str) -> str:
         for hint in self.hints:
