@@ -70,6 +70,7 @@ def stepdef(puzzle, dictionary):
         'indices': lambda ss: ([int(ee) for ee in ss.split(',')] if ss != 'None' else []),
         'hint_type': lambda s: {
             'correct': HintType.CORRECT,
+            'in the wrong position': HintType.WRONG_PLACE,
             'not present': HintType.NOT_PRESENT,
             }[s]
     }
