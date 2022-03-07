@@ -1,5 +1,4 @@
 from typing import List
-from pathlib import Path
 
 from pytest import fixture
 from pytest_bdd import scenarios, given, when, then
@@ -12,7 +11,7 @@ from dictionary import Dictionary
 
 @fixture(scope="session")
 def dictionary() -> Dictionary:
-    return Dictionary.from_text_file(Path("./data/words.txt"))
+    return Dictionary.from_text_file("./data/words.txt")
 
 
 scenarios("")
