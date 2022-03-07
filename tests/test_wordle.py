@@ -1,5 +1,6 @@
 import enum
 from typing import List
+from pathlib import Path
 from pytest import FixtureRequest, fixture
 from pytest_bdd import scenarios, given, when, then
 from pytest_bdd.parsers import parse
@@ -7,9 +8,9 @@ from pytest_bdd.parsers import parse
 from puzzle import HintType, Puzzle
 from dictionary import Dictionary
 
-@fixture
+@fixture(scope="session")
 def dictionary() -> Dictionary:
-    return Dictionary()
+    return Dictionary.from_text_file(Path("./data/words.txt"))
 
 
 
