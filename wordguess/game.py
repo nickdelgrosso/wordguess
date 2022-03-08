@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Dict, Tuple
-from dictionary import Dictionary
-from puzzle import HintType, Puzzle
+from .dictionary import Dictionary
+from .puzzle import HintType, Puzzle
 
 
 @dataclass()

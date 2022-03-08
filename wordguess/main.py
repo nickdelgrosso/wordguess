@@ -1,13 +1,11 @@
-from mimetypes import guess_all_extensions
-from turtle import back
-from puzzle import Puzzle
-from dictionary import Dictionary
-from game import Game
 from colorama import Fore, Back, Style
-# from gui import MainWindow
 from colorama import init
+import pkg_resources
 
-from puzzle import HintType
+
+from .puzzle import Puzzle, HintType
+from .dictionary import Dictionary
+from .game import Game
 
 
 def colored(text, color='', background='',):
@@ -22,13 +20,16 @@ def colored(text, color='', background='',):
 
 
 def main():
-    dictionary = Dictionary.from_text_file("data/words.txt")
+    breakpoint()
+    filename = pkg_resources.resource_filename('wordguess', 'data/words.txt')
+    dictionary = Dictionary.from_text_file(filename)
     game = Game(
         dictionary=dictionary,
         puzzle=Puzzle(solution=dictionary.get_random())
     )
 
     init()
+    print('Wordguess: Guess the 5-letter word!')
     while not game.has_won():
         guess = input(f'Guess {game.round}: ')
         game.guess(word=guess)
