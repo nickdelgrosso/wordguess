@@ -26,4 +26,7 @@ class Game:
     def has_won(self) -> bool:
         return self.puzzle.has_won()
         
-        
+    @property
+    def round(self) -> int:
+        return len(self.hints) + 1
+

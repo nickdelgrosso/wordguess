@@ -84,11 +84,11 @@ def stepdef(game: Game, guess: str, is_registered: bool):
     parse('the hint for "{hint_word}" shows that letters [{indices}] are {hint_type}'),
     converters={
         'indices': lambda ss: ([int(ee) for ee in ss.split(',')] if ss != 'None' else []),
-        'hint_type': lambda s: {
+        'hint_type': {
             'correct': HintType.CORRECT,
             'in the wrong position': HintType.WRONG_PLACE,
             'not present': HintType.NOT_PRESENT,
-            }[s]
+            }.get
     }
 )
 def stepdef(game: Game, hint_word, indices, hint_type):
@@ -99,5 +99,13 @@ def stepdef(game: Game, hint_word, indices, hint_type):
         
 
 
-
-
+@given(
+    parse('the current round is {round}'),
+    converters={'round': int},
+)
+@then(
+    parse('the current round is {round}'),
+    converters={'round': int},
+)
+def stepdef(game: Game, round: int):
+    assert game.round == round

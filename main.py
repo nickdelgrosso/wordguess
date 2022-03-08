@@ -29,15 +29,12 @@ def main():
     )
 
     init()
-    round = 0
     while not game.has_won():
-        round += 1
-        guess = input(f'Guess {round}: ')
+        guess = input(f'Guess {game.round}: ')
         game.guess(word=guess)
         try:
             hints = game.hints[guess]
         except KeyError:
-            round -= 1
             continue
         
         colors = {

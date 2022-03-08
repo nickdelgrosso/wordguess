@@ -54,4 +54,9 @@ Feature: Unfinished Wordle
         When the player guesses "great"
         Then the player sees a win message.
 
-    
+    Scenario: Count Number of Rounds
+        Given a puzzle where the correct answer is "great" 
+        And the hints [peach]
+        And the current round is 2
+        When the player guesses "joust"
+        Then the current round is 3

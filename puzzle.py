@@ -20,6 +20,8 @@ class Puzzle:
     def add_hint(self, word: str):
         if len(word) != len(self.solution):
             raise ValueError(f"Guess must contain {len(self.solution)} letters.")
+        if word in self.hints:
+            raise ValueError(f"Guess already made.")
         self.hints.append(word)
 
     def has_won(self) -> bool:
