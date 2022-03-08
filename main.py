@@ -49,3 +49,7 @@ def main():
             color = colors[hint]
             print(colored(letter, *color), end='')
         print('')
+
+
+if __name__ == '__main__':
+    main()
